@@ -1,0 +1,639 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --navy:       #0f1623;
+  --navy-mid:   #1a2436;
+  --navy-light: #243044;
+  --gold:       #c9a84c;
+  --gold-light: #e8c96b;
+  --gold-dim:   rgba(201, 168, 76, 0.15);
+  --white:      #f5f0e8;
+  --white-dim:  rgba(245, 240, 232, 0.6);
+  --green:      #4caf82;
+  --green-dim:  rgba(76, 175, 130, 0.12);
+  --red:        #e05c5c;
+  --red-dim:    rgba(224, 92, 92, 0.12);
+  --border:     rgba(201, 168, 76, 0.2);
+  --shadow:     0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-sm:  0 2px 8px rgba(0, 0, 0, 0.25);
+  --radius:     12px;
+  --radius-sm:  8px;
+}
+
+/* ── Reset & Base ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--navy);
+  color: var(--white);
+  min-height: 100vh;
+  /* Subtle noise texture for depth */
+  background-image: radial-gradient(ellipse at 20% 50%, rgba(201, 168, 76, 0.04) 0%, transparent 60%),
+                    radial-gradient(ellipse at 80% 20%, rgba(201, 168, 76, 0.03) 0%, transparent 50%);
+}
+
+/* ── Typography ── */
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+  letter-spacing: -0.02em;
+}
+
+.mono {
+  font-family: 'DM Mono', monospace;
+}
+
+/* ── Layout ── */
+.page-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* ── Dashboard Header ── */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  color: var(--white);
+}
+
+.dashboard-title span {
+  color: var(--gold);
+}
+
+.header-badge {
+  background: var(--gold-dim);
+  border: 1px solid var(--border);
+  color: var(--gold);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  border-radius: 100px;
+  text-transform: uppercase;
+}
+
+/* ── Stats Cards Row ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stat-card {
+  background: var(--navy-mid);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+}
+
+/* Decorative corner accent */
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 60px; height: 60px;
+  background: radial-gradient(circle at top right, var(--gold-dim), transparent 70%);
+}
+
+.stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  margin-bottom: 10px;
+}
+
+.stat-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.9rem;
+  font-weight: 500;
+  color: var(--white);
+  line-height: 1;
+}
+
+.stat-value.balance {
+  color: var(--gold);
+}
+
+.stat-value.deposits {
+  color: var(--green);
+}
+
+.stat-value.withdrawals {
+  color: var(--red);
+}
+
+/* ── Action Buttons ── */
+.action-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.btn {
+  flex: 1;
+  padding: 14px 24px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-deposit {
+  background: var(--green);
+  color: #fff;
+}
+
+.btn-deposit:hover {
+  background: #5dc294;
+  box-shadow: 0 4px 16px rgba(76, 175, 130, 0.4);
+}
+
+.btn-withdraw {
+  background: transparent;
+  color: var(--red);
+  border: 1px solid var(--red);
+}
+
+.btn-withdraw:hover {
+  background: var(--red-dim);
+  box-shadow: 0 4px 16px rgba(224, 92, 92, 0.2);
+}
+
+.btn-transfer {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+.btn-transfer:hover {
+  background: rgba(201, 168, 76, 0.08);
+  box-shadow: 0 4px 16px rgba(201, 168, 76, 0.15);
+}
+
+.wallet-directory {
+  margin-top: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--navy-mid);
+}
+
+.directory-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.directory-header h3 {
+  margin-bottom: 6px;
+  font-size: 1.1rem;
+}
+
+.directory-header p {
+  color: var(--white-dim);
+  font-size: 0.9rem;
+  max-width: 420px;
+}
+
+.search-input {
+  min-width: 240px;
+  background: var(--navy);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--white);
+  padding: 12px 14px;
+  font-family: 'DM Mono', monospace;
+}
+
+.wallet-list {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+}
+
+.wallet-card {
+  display: grid;
+  gap: 16px;
+  padding: 18px 20px;
+  border: 1px solid rgba(201, 168, 76, 0.12);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.wallet-id,
+.wallet-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--white-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.wallet-value,
+.wallet-amount {
+  font-family: 'DM Mono', monospace;
+  font-size: 1rem;
+  color: var(--white);
+}
+
+.wallet-values {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+}
+
+.wallet-amount.deposits {
+  color: var(--green);
+}
+
+.wallet-amount.withdrawals {
+  color: var(--red);
+}
+
+.wallet-empty {
+  padding: 24px;
+  color: var(--white-dim);
+}
+
+@media (max-width: 720px) {
+  .wallet-values {
+    grid-template-columns: 1fr;
+  }
+
+  .directory-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background: var(--gold);
+  color: var(--navy);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  margin-top: 8px;
+}
+
+.btn-submit:hover {
+  background: var(--gold-light);
+  box-shadow: 0 4px 16px rgba(201, 168, 76, 0.4);
+}
+
+.btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Transaction Ledger ── */
+.ledger-section {
+  background: var(--navy-mid);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.ledger-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ledger-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--white);
+}
+
+.ledger-subtitle {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--white-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ledger-empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--white-dim);
+  font-size: 0.9rem;
+}
+
+.transaction-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.08);
+  transition: background 0.15s ease;
+}
+
+.transaction-row:last-child {
+  border-bottom: none;
+}
+
+.transaction-row:hover {
+  background: var(--navy-light);
+}
+
+.tx-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.tx-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.tx-icon.deposit {
+  background: var(--green-dim);
+  color: var(--green);
+}
+
+.tx-icon.withdrawal {
+  background: var(--red-dim);
+  color: var(--red);
+}
+
+.tx-type {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--white);
+  text-transform: capitalize;
+}
+
+.tx-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--white-dim);
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+}
+
+.tx-equipment {
+  font-size: 0.8rem;
+  color: var(--white);
+  margin-top: 4px;
+  font-family: 'DM Mono', monospace;
+}
+
+.tx-amount {
+  font-family: 'DM Mono', monospace;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.tx-amount.deposit {
+  color: var(--green);
+}
+
+.tx-amount.withdrawal {
+  color: var(--red);
+}
+
+/* ── Modal Overlay ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 14, 22, 0.85);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-box {
+  background: var(--navy-mid);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--shadow);
+  animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+}
+
+.modal-subtitle {
+  font-size: 0.85rem;
+  color: var(--white-dim);
+  margin-bottom: 24px;
+}
+
+/* ── Form Elements ── */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  margin-bottom: 8px;
+}
+
+.form-input {
+  width: 100%;
+  background: var(--navy);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--white);
+  font-family: 'DM Mono', monospace;
+  font-size: 1.2rem;
+  padding: 12px 16px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-dim);
+}
+
+.form-input::placeholder {
+  color: rgba(245, 240, 232, 0.2);
+}
+
+/* ── Alerts & Messages ── */
+.alert {
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alert-error {
+  background: var(--red-dim);
+  border: 1px solid rgba(224, 92, 92, 0.3);
+  color: var(--red);
+}
+
+.alert-success {
+  background: var(--green-dim);
+  border: 1px solid rgba(76, 175, 130, 0.3);
+  color: var(--green);
+}
+
+/* ── Modal Footer ── */
+.modal-cancel {
+  background: none;
+  border: none;
+  color: var(--white-dim);
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-top: 12px;
+  width: 100%;
+  text-align: center;
+  padding: 8px;
+  transition: color 0.15s;
+}
+
+.modal-cancel:hover {
+  color: var(--white);
+}
+
+/* ── Loading Spinner ── */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Loading State ── */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 16px;
+  color: var(--white-dim);
+}
+
+.loading-spinner-large {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ── Error State ── */
+.error-container {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--red);
+}
+
+.error-container p {
+  color: var(--white-dim);
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+
+.refresh-btn {
+  margin-top: 16px;
+  background: var(--navy-light);
+  border: 1px solid var(--border);
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: border-color 0.2s;
+}
+
+.refresh-btn:hover {
+  border-color: var(--gold);
+}
