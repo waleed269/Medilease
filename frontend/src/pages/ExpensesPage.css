@@ -1,0 +1,172 @@
+/* ExpensesPage.css — Styles for the Expenses module */
+/* Uses CSS Grid and Flexbox only — no frameworks */
+/* All colors reference CSS custom properties defined in global.css */
+
+/* ─── Page Wrapper ───────────────────────────────────────────────────────── */
+.expenses-page {
+  padding: var(--space-3);
+  background: var(--color-bg);
+  min-height: 100vh;
+}
+
+.expenses-page__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ─── Page Header ────────────────────────────────────────────────────────── */
+.expenses-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
+.expenses-page__title {
+  font-size: var(--text-h1);
+  font-weight: 700;
+  color: var(--color-navy);
+}
+
+/* ─── Summary Cards Grid ─────────────────────────────────────────────────── */
+.expenses-summary-grid {
+  display: grid;
+  /* auto-fill: as many columns as will fit, each at least 220px wide */
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.summary-card {
+  background: var(--color-surface);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-2);
+  box-shadow: var(--shadow);
+}
+
+.summary-card__label {
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.summary-card__value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-navy);
+  font-family: var(--font-mono);
+}
+
+/* ─── Filters Bar ────────────────────────────────────────────────────────── */
+.expenses-filters {
+  background: var(--color-surface);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-2);
+  margin-bottom: var(--space-3);
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+  align-items: center;
+  box-shadow: var(--shadow);
+}
+
+.expenses-filters select,
+.expenses-filters input[type='date'] {
+  height: var(--button-height);
+  padding: 0 12px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+  font-size: var(--text-body);
+  font-family: var(--font-main);
+  color: var(--color-text);
+  flex: 1;
+  min-width: 140px;
+}
+
+/* ─── Expense Table ──────────────────────────────────────────────────────── */
+.expenses-table-wrapper {
+  background: var(--color-surface);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.expenses-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.expenses-table thead tr {
+  background: var(--color-bg);
+}
+
+.expenses-table th {
+  padding: 12px var(--space-2);
+  text-align: left;
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: var(--color-navy);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.expenses-table td {
+  padding: 12px var(--space-2);
+  font-size: var(--text-body);
+  color: var(--color-text);
+  border-top: 1px solid var(--color-bg);
+}
+
+/* Every other row gets a very light tint */
+.expenses-table tbody tr:nth-child(even) {
+  background: #FAFBFC;
+}
+
+.expenses-table .amount-cell {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-navy);
+}
+
+.expenses-table .date-cell,
+.expenses-table .method-cell {
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
+}
+
+.expenses-table .actions-cell {
+  display: flex;
+  gap: var(--space-1);
+}
+
+/* ─── Empty State ────────────────────────────────────────────────────────── */
+.expenses-empty {
+  background: var(--color-surface);
+  border-radius: var(--border-radius-lg);
+  padding: 48px var(--space-2);
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.expenses-empty p:first-child {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.expenses-empty p:last-child {
+  font-size: var(--text-body);
+  color: var(--color-text-muted);
+}
+
+/* ─── Loading State ──────────────────────────────────────────────────────── */
+.expenses-loading {
+  text-align: center;
+  padding: 48px;
+  color: var(--color-text-muted);
+  font-size: var(--text-body);
+}

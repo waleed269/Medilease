@@ -1,0 +1,233 @@
+/* global.css — Design tokens and base styles for the entire MediLease app */
+/* All colors, fonts, and spacing are defined here as CSS Custom Properties */
+/* Import this file once in main.jsx or App.jsx */
+
+/* ─── Google Fonts ────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+/* ─── CSS Custom Properties (Design Tokens) ─────────────────────────────── */
+:root {
+  /* Brand Colors */
+  --color-navy:       #1B4F72;   /* Primary — headers, nav, CTAs */
+  --color-teal:       #2E86AB;   /* Accent — section headings, active links */
+  --color-green:      #27AE60;   /* Success — safe budget status */
+  --color-amber:      #F39C12;   /* Warning — near limit status */
+  --color-red:        #E74C3C;   /* Danger — exceeded status, errors */
+
+  /* Background & Surface */
+  --color-bg:         #F4F6F8;   /* Page background */
+  --color-surface:    #FFFFFF;   /* Card/panel background */
+
+  /* Text */
+  --color-text:       #333333;   /* Primary body text */
+  --color-text-muted: #888888;   /* Secondary text — dates, IDs, hints */
+
+  /* Border */
+  --color-border:     #E0E4E8;
+
+  /* ─── Spacing Scale (base unit: 8px) ──────────────────────────────────── */
+  --space-1: 8px;    /* internal element gaps */
+  --space-2: 16px;   /* component padding */
+  --space-3: 24px;   /* between related sections */
+  --space-4: 32px;   /* between major sections */
+  --space-5: 64px;   /* between full-width page sections */
+
+  /* ─── Typography ──────────────────────────────────────────────────────── */
+  --font-main:    'Poppins', sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+
+  --text-h1:    28px;   /* Page titles */
+  --text-h2:    20px;   /* Section headings */
+  --text-body:  14px;   /* Regular body text */
+  --text-small: 12px;   /* Dates, IDs, supporting data */
+
+  /* ─── Component ───────────────────────────────────────────────────────── */
+  --button-height:    40px;
+  --border-radius:    8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  --shadow:           0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-lg:        0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* ─── Reset & Base ───────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  font-size: var(--text-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.5;
+}
+
+/* ─── Reusable Utility Classes ───────────────────────────────────────────── */
+
+/* Alert / notification banners */
+.alert {
+  padding: var(--space-2);
+  border-radius: var(--border-radius);
+  font-size: var(--text-body);
+  margin-bottom: var(--space-2);
+}
+
+.alert--success {
+  background-color: #e8f8ee;
+  color: var(--color-green);
+}
+
+.alert--error {
+  background-color: #fde8e8;
+  color: var(--color-red);
+}
+
+/* Status badge pill */
+.badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+
+.badge--safe {
+  background-color: #e8f8ee;
+  color: var(--color-green);
+}
+
+.badge--nearLimit {
+  background-color: #fef3e2;
+  color: var(--color-amber);
+}
+
+.badge--exceeded {
+  background-color: #fde8e8;
+  color: var(--color-red);
+}
+
+/* ─── Modal Overlay ──────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-2);
+}
+
+.modal {
+  background: var(--color-surface);
+  border-radius: var(--border-radius-xl);
+  padding: var(--space-4);
+  width: 100%;
+  max-width: 500px;
+  box-shadow: var(--shadow-lg);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal__title {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  color: var(--color-navy);
+  margin-bottom: var(--space-3);
+}
+
+/* ─── Form Elements ──────────────────────────────────────────────────────── */
+.form-group {
+  margin-bottom: var(--space-2);
+}
+
+.form-group label {
+  display: block;
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+  font-size: var(--text-body);
+  font-family: var(--font-main);
+  color: var(--color-text);
+  background: var(--color-surface);
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-teal);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+/* ─── Buttons ────────────────────────────────────────────────────────────── */
+.btn {
+  height: var(--button-height);
+  padding: 0 var(--space-2);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: var(--text-body);
+  font-weight: 600;
+  font-family: var(--font-main);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background-color: var(--color-navy);
+  color: #fff;
+}
+
+.btn--secondary {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.btn--teal {
+  background-color: var(--color-teal);
+  color: #fff;
+}
+
+.btn--danger {
+  background-color: var(--color-red);
+  color: #fff;
+}
+
+.btn--sm {
+  height: 32px;
+  padding: 0 12px;
+  font-size: var(--text-small);
+}
+
+/* ─── Form action row (modal buttons) ───────────────────────────────────── */
+.form-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.form-actions .btn {
+  flex: 1;
+}
