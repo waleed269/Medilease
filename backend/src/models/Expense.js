@@ -47,6 +47,13 @@ const expenseSchema = new mongoose.Schema(
       required: [true, 'Date is required'],
     },
 
+    // Equipment owner selected from the list of users
+    ownerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'Equipment owner is required'],
+    },
+
     // Optional extra info about the expense
     notes: {
       type: String,

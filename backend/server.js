@@ -17,6 +17,10 @@ app.use(express.json());
 // Allow requests from the React frontend (running on a different port)
 app.use(cors());
 
+// Development helper auth route
+app.use('/api/auth', require('./src/routes/authRoutes'));
+app.use('/api/users', require('./src/routes/userRoutes'));
+
 // Register the expense and budget routes
 // All expense endpoints will be prefixed with /api/expenses
 // All budget endpoints will be prefixed with /api/budgets

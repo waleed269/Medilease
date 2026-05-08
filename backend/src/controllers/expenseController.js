@@ -3,6 +3,7 @@
 // Every function enforces ownership: users can only touch their own expenses
 
 const Expense = require('../models/Expense');
+const User = require('../models/User');
 const mongoose = require('mongoose');
 
 // ─── Helper: Send a consistent JSON response ─────────────────────────────────
@@ -22,11 +23,20 @@ const isValidId = (id) => mongoose.Types.ObjectId.isValid(id);
 // ─────────────────────────────────────────────────────────────────────────────
 const createExpense = async (req, res) => {
   try {
-    const { title, amount, category, paymentMethod, date, notes } = req.body;
+    const { title, amount, category, paymentMethod, date, notes, ownerId } = req.body;
 
     // Basic required field check
-    if (!title || !amount || !category || !date) {
-      return sendResponse(res, 400, false, 'Title, amount, category, and date are required');
+    if (!title || !amount || !category || !date || !ownerId) {
+      return sendResponse(res, 400, false, 'Title, amount, category, date, and owner are required');
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(ownerId)) {
+      return sendResponse(res, 400, false, 'Selected owner is invalid');
+    }
+
+    const owner = await User.findById(ownerId);
+    if (!owner) {
+      return sendResponse(res, 404, false, 'Selected owner does not exist');
     }
 
     // Amount must be positive
@@ -37,6 +47,7 @@ const createExpense = async (req, res) => {
     // Create the expense — userId comes from the JWT middleware (req.user._id)
     const expense = await Expense.create({
       userId: req.user._id,
+      ownerId,
       title: title.trim(),
       amount: Number(amount),
       category: category.trim(),
@@ -75,7 +86,9 @@ const getExpenses = async (req, res) => {
     }
 
     // Sort newest first
-    const expenses = await Expense.find(filter).sort({ date: -1 });
+    const expenses = await Expense.find(filter)
+      .sort({ date: -1 })
+      .populate('ownerId', 'name email');
 
     return sendResponse(res, 200, true, 'Expenses fetched successfully', expenses);
   } catch (error) {
@@ -190,7 +203,18 @@ const updateExpense = async (req, res) => {
       return sendResponse(res, 403, false, 'Access denied — this expense does not belong to you');
     }
 
-    const { title, amount, category, paymentMethod, date, notes } = req.body;
+    const { title, amount, category, paymentMethod, date, notes, ownerId } = req.body;
+
+    // If owner is being updated, validate against the users collection
+    if (ownerId !== undefined) {
+      if (!mongoose.Types.ObjectId.isValid(ownerId)) {
+        return sendResponse(res, 400, false, 'Selected owner is invalid');
+      }
+      const owner = await User.findById(ownerId);
+      if (!owner) {
+        return sendResponse(res, 404, false, 'Selected owner does not exist');
+      }
+    }
 
     // If amount is being updated, make sure it's still positive
     if (amount !== undefined && Number(amount) <= 0) {
@@ -205,6 +229,7 @@ const updateExpense = async (req, res) => {
     if (paymentMethod !== undefined) updateFields.paymentMethod = paymentMethod;
     if (date !== undefined) updateFields.date = new Date(date);
     if (notes !== undefined) updateFields.notes = notes.trim();
+    if (ownerId !== undefined) updateFields.ownerId = ownerId;
 
     // { new: true } returns the updated document, not the old one
     // { runValidators: true } re-runs schema validation on the update
